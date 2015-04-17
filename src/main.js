@@ -3,6 +3,7 @@
 var Engine = famous.core.Engine;
 var Modifier = famous.core.Modifier;
 var Transform = famous.core.Transform;
+var Surface = famous.core.Surface;
 var ImageSurface = famous.surfaces.ImageSurface;
 var StateModifier = famous.modifiers.StateModifier;
 var Easing = famous.transitions.Easing;
@@ -13,13 +14,13 @@ Transitionable.registerMethod('spring', SpringTransition);
 
 var spring = {
   method: 'spring',
-  period: 300,
+  period: 400,
   dampingRatio: 0.3
 };
 
 var spring2 = {
   method: 'spring',
-  period: 100,
+  period: 150,
   dampingRatio: 0.8
 };
 
@@ -33,6 +34,23 @@ var logo = new ImageSurface({
     classes: ['double-sided']
 });
 
+var tapMe = new Surface({
+  content: 'Tap the logo',
+  size: [true, true],
+  textAlign: 'center',
+  properties: {
+    fontFamily: 'Muli, sans-serif',
+    fontSize: '30',
+    color: '#787878'
+  }
+});
+
+var centerModifier = new StateModifier({
+  origin: [0.5, 0.5],
+  align: [0.5, 0.5],
+  transform: Transform.translate(0, 120, 0)
+})
+
 var initialTime = Date.now();
 var centerSpinModifier = new Modifier({
     origin: [0.5, 0.5],
@@ -43,8 +61,8 @@ var centerSpinModifier = new Modifier({
 });
 
 var stateModifier = new StateModifier();
-var scaleModifier = new Modifier();
 
+mainContext.add(centerModifier).add(tapMe);
 mainContext.add(centerSpinModifier).add(stateModifier).add(logo);
 
 logo.on('click', function(){
